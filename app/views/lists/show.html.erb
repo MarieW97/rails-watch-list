@@ -1,10 +1,9 @@
-<h2><%= @list.name %></h2>
-
-<%= link_to "Go back", lists_path %>
-<%= link_to "Add a movie",  new_list_bookmark_path(@list) %>
+<div>
+  <h2><%= @list.name %></h2>
+  <%= cl_image_tag @list.photo.key, height: 300, width: 400, crop: :fill if @list.photo.attached? %>
+</div>
 
 <ul>
-  <%= cl_image_tag @list.photo.key, height: 300, width: 400, crop: :fill %>
   <% @list.movies.each do |movie| %>
   <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
   <li>
@@ -16,3 +15,10 @@
   </li>
   <% end %>
 </ul>
+
+<%= link_to "Go back", lists_path %>
+<%= link_to "Add a movie",  new_list_bookmark_path(@list) %>
+<%= link_to "Delete #{@list.name}",
+      list_path(@list),
+      method: :delete,
+      data: { confirm: "Are you sure?" } %>
